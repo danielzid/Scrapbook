@@ -18,7 +18,7 @@ class Board:
         self.win_thresh = min(self.size, win_thresh)
         self.board: list[list[int]] = [[0 for _ in range(self.size)] for _ in range(self.size)]
         self.occupied_set: set[tuple[int, int]] = set()
-        self.invalid_set: set[tuple[int, int]] = set()
+        
 
     def draw_labels(self) -> None:
         x_label = (chr(ord('A') + i) for i in range(self.size))
@@ -114,34 +114,7 @@ class Board:
     def is_full(self) -> bool:
         return len(self.occupied_set) == self.size * self.size
 
-    def get_neighbors(self, pos: tuple[int, int]) -> list[list[tuple[int, int]]]:
-        """
-        Returns neighbors grouped by axis:
-          [0] horizontal, [1] vertical, [2] diagonal ↘, [3] diagonal ↗
-        Only includes cells that are occupied.
-        """
-        res: list[list[tuple[int, int]]] = [[], [], [], []]
-        row, col = pos
-
-        axes = [
-            (0, 1),   # horizontal
-            (1, 0),   # vertical
-            (1, 1),   # diagonal ↘
-            (1, -1),  # diagonal ↗
-        ]
-
-        for axis_idx, (dr, dc) in enumerate(axes):
-            for sign in (1, -1):
-                for step in range(1, self.win_thresh):
-                    nr = row + sign * dr * step
-                    nc = col + sign * dc * step
-                    if 0 <= nr < self.size and 0 <= nc < self.size:
-                        if (nr, nc) in self.occupied_set:
-                            res[axis_idx].append((nr, nc))
-                    else:
-                        break  # don't wrap or skip gaps
-
-        return res
+    
 
     def comp_play(self) -> tuple[int, int]:
         print("Computer thinking...")

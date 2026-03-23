@@ -14,9 +14,9 @@ class Board:
         os.system("cls" if os.name == "nt" else "clear")
 
     def __init__(self, size: int = 3, win_thresh: int = 3) -> None:
-        self.size = size
-        self.win_thresh = win_thresh
-        self.board: list[list[int]] = [[0 for _ in range(size)] for _ in range(size)]
+        self.size = abs(size)
+        self.win_thresh = min(self.size, win_thresh)
+        self.board: list[list[int]] = [[0 for _ in range(self.size)] for _ in range(self.size)]
         self.occupied_set: set[tuple[int, int]] = set()
         self.invalid_set: set[tuple[int, int]] = set()
 
@@ -154,7 +154,7 @@ class Board:
 
 
 def main() -> None:
-    bd = Board(5, win_thresh=4)
+    bd = Board()
 
     while True:
         Board.clear()

@@ -18,7 +18,7 @@ class Board:
         self.win_thresh = min(self.size, win_thresh)
         self.board: list[list[int]] = [[0 for _ in range(self.size)] for _ in range(self.size)]
         self.occupied_set: set[tuple[int, int]] = set()
-        self.invalid_set: set[tuple[int, int]] = set()
+        
 
     def draw_labels(self) -> None:
         x_label = (chr(ord('A') + i) for i in range(self.size))

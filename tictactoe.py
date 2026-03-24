@@ -68,8 +68,8 @@ class Board:
         axes = [
             (0, 1),   # horizontal
             (1, 0),   # vertical
-            (1, 1),   # diagonal ↘
-            (1, -1),  # diagonal ↗
+            (1, 1),   # diagonal 1
+            (1, -1),  # diagonal 2
         ]
 
         checked: set[tuple[tuple[int, int], tuple[int, int]]] = set()
@@ -114,7 +114,34 @@ class Board:
     def is_full(self) -> bool:
         return len(self.occupied_set) == self.size * self.size
 
-    
+    def get_neighbors(self, pos: tuple[int, int]) -> list[list[tuple[int, int]]]:
+        """
+        Returns neighbors grouped by axis:
+          [0] horizontal, [1] vertical, [2] diagonal 1, [3] diagonal 2
+        Only includes cells that are occupied.
+        """
+        res: list[list[tuple[int, int]]] = [[], [], [], []]
+        row, col = pos
+
+        axes = [
+            (0, 1),   # horizontal
+            (1, 0),   # vertical
+            (1, 1),   # diagonal 1
+            (1, -1),  # diagonal 2
+        ]
+
+        for axis_idx, (dr, dc) in enumerate(axes):
+            for sign in (1, -1):
+                for step in range(1, self.win_thresh):
+                    nr = row + sign * dr * step
+                    nc = col + sign * dc * step
+                    if 0 <= nr < self.size and 0 <= nc < self.size:
+                        if (nr, nc) in self.occupied_set:
+                            res[axis_idx].append((nr, nc))
+                    else:
+                        break  # don't wrap or skip gaps
+
+        return res
 
     def comp_play(self) -> tuple[int, int]:
         print("Computer thinking...")

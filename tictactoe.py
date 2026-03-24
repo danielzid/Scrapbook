@@ -68,8 +68,8 @@ class Board:
         axes = [
             (0, 1),   # horizontal
             (1, 0),   # vertical
-            (1, 1),   # diagonal ↘
-            (1, -1),  # diagonal ↗
+            (1, 1),   # diagonal 1
+            (1, -1),  # diagonal 2
         ]
 
         checked: set[tuple[tuple[int, int], tuple[int, int]]] = set()
@@ -117,7 +117,7 @@ class Board:
     def get_neighbors(self, pos: tuple[int, int]) -> list[list[tuple[int, int]]]:
         """
         Returns neighbors grouped by axis:
-          [0] horizontal, [1] vertical, [2] diagonal ↘, [3] diagonal ↗
+          [0] horizontal, [1] vertical, [2] diagonal 1, [3] diagonal 2
         Only includes cells that are occupied.
         """
         res: list[list[tuple[int, int]]] = [[], [], [], []]
@@ -126,8 +126,8 @@ class Board:
         axes = [
             (0, 1),   # horizontal
             (1, 0),   # vertical
-            (1, 1),   # diagonal ↘
-            (1, -1),  # diagonal ↗
+            (1, 1),   # diagonal 1
+            (1, -1),  # diagonal 2
         ]
 
         for axis_idx, (dr, dc) in enumerate(axes):
